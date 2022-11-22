@@ -41,6 +41,6 @@ export AWS_SECRET_ACCESS_KEY=<YOUR_SECRET_ACCESS_KEY>
 ```
 
 ### Install additional software
-# [KBEECTL](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/)
+# [KUBECTL](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/)
 # [AWS-CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
