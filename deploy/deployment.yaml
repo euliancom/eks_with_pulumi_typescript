@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pulumi-hello-world
+  labels:
+    app: pulumi-hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pulumi-hello-world
+  template:
+    metadata:
+      labels:
+        app: pulumi-hello-world
+    spec:
+      containers:
+      - name: pulumi-hello-world
+        image: nginx:latest
+        ports:
+        - containerPort: 80
