@@ -1,0 +1,4 @@
+config:
+  name: pulumi-hello-world
+  aws:region: us-east-1
+  kubernetes:context: my-context

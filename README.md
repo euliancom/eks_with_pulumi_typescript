@@ -1,3 +1,11 @@
+# Task
+
+1. Create your code in a public Github account
+2. Use pulumi to spin up on AWS;
+3. A small Kubernetes cluster
+4. Deploy a hello world container
+5. Make the container public with an ingress towards the Kubernetes cluster. (You can chose technology or tool that you want.)
+
 # Create a new AWS EKS cluster using Pulumi with TypeScript
 
 ## Before You Begin
@@ -24,6 +32,7 @@ Install [Node.js](https://nodejs.org/en/download/).
 ```
 export AWS_ACCESS_KEY_ID=<YOUR_ACCESS_KEY_ID> 
 export AWS_SECRET_ACCESS_KEY=<YOUR_SECRET_ACCESS_KEY>
+export KUBECONFIG=~/.kube/kubeconfig
 ```
 
 #### Windows
@@ -31,6 +40,7 @@ export AWS_SECRET_ACCESS_KEY=<YOUR_SECRET_ACCESS_KEY>
 ```
 $env:AWS_ACCESS_KEY_ID = "<YOUR_ACCESS_KEY_ID>";
 $env:AWS_SECRET_ACCESS_KEY = "<YOUR_SECRET_ACCESS_KEY>"
+$env:AWS_SECRET_ACCESS_KEY = "C:\Users\<username>\AppData\Local\Tempkubeconfig"
 ```
 
 #### Linux
@@ -38,5 +48,15 @@ $env:AWS_SECRET_ACCESS_KEY = "<YOUR_SECRET_ACCESS_KEY>"
 ```
 export AWS_ACCESS_KEY_ID=<YOUR_ACCESS_KEY_ID>
 export AWS_SECRET_ACCESS_KEY=<YOUR_SECRET_ACCESS_KEY>
+export KUBECONFIG=~/.kube/kubeconfig
 ```
+
+### Install additional software
+# [KUBECTL](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/)
+# [AWS-CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+## I created 2 implementations using 2 different providers.
+
+### EKS + Kubernetes providers, which offers faster deployment in my opinion
+### AWS + Kubernetes providers, which gives a greater control in my opinion
 
