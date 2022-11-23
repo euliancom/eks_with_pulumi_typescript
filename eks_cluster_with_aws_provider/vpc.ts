@@ -1,4 +1,7 @@
 import * as aws from "@pulumi/aws";
+import { Config } from "@pulumi/pulumi";
+
+const configVPC = new Config("vpc");
 
 export function prepareVPC(name: string): aws.ec2.Subnet[] {
     const vpcConfig = createVPC(`${name}-vpc`);
@@ -27,121 +30,121 @@ export function prepareVPC(name: string): aws.ec2.Subnet[] {
 
 function configPrivateSubnetUsEast1b(name: string, vpcConfig: aws.ec2.Vpc, ig: aws.ec2.InternetGateway) {
     const privateSubnetUsEast1b = createSubnet(
-        `${name}-private-us-east-1b`,
+        `${name}-private-${configVPC.require("subnet-az-2")}`,
         vpcConfig,
-        "10.0.192.0/18",
-        "us-east-1b",
+        configVPC.require("subnet-private-cidr-block-az-2"),
+        configVPC.require("subnet-az-2"),
         false
     );
 
-    const privateEipUsEast1b = new aws.ec2.Eip(`lb-${name}-private-us-east-1b`, {
+    const privateEipUsEast1b = new aws.ec2.Eip(`lb-${name}-private-${configVPC.require("subnet-az-2")}`, {
         vpc: true,
     }, {
         dependsOn: [privateSubnetUsEast1b],
     });
 
-    const privateNatUsEast1b = new aws.ec2.NatGateway(`nat-${name}-private-us-east-1b`, {
+    const privateNatUsEast1b = new aws.ec2.NatGateway(`nat-${name}-private-${configVPC.require("subnet-az-2")}`, {
         allocationId: privateEipUsEast1b.id,
         subnetId: privateSubnetUsEast1b.id,
         tags: {
-            Name: `nat-${name}-private-us-east-1b`,
+            Name: `nat-${name}-private-${configVPC.require("subnet-az-2")}`,
         },
     }, {
         dependsOn: [ig, privateEipUsEast1b],
     });
 
-    const privateRouteTableUsEast1b = createRouteTable(`rt-${name}-private-us-east-1b`, vpcConfig);
+    const privateRouteTableUsEast1b = createRouteTable(`rt-${name}-private-${configVPC.require("subnet-az-2")}`, vpcConfig);
 
-    new aws.ec2.RouteTableAssociation(`rta-${name}-private-us-east-1b`, {
+    new aws.ec2.RouteTableAssociation(`rta-${name}-private-${configVPC.require("subnet-az-2")}`, {
         subnetId: privateSubnetUsEast1b.id,
         routeTableId: privateRouteTableUsEast1b.id,
     }, {
         dependsOn: [privateSubnetUsEast1b, privateRouteTableUsEast1b],
     });
 
-    const privateRouteUsEast1b = createPrivateRoute(`r-${name}-private-us-east-1b`, privateRouteTableUsEast1b, privateNatUsEast1b);
+    const privateRouteUsEast1b = createPrivateRoute(`r-${name}-private-${configVPC.require("subnet-az-2")}`, privateRouteTableUsEast1b, privateNatUsEast1b);
     return privateSubnetUsEast1b;
 }
 
 function configPrivateSubnetUsEast1a(name: string, vpcConfig: aws.ec2.Vpc, ig: aws.ec2.InternetGateway) {
     const privateSubnetUsEast1a = createSubnet(
-        `${name}-private-us-east-1a`,
+        `${name}-private-${configVPC.require("subnet-az-1")}`,
         vpcConfig,
-        "10.0.128.0/18",
-        "us-east-1a",
+        configVPC.require("subnet-private-cidr-block-az-2"),
+        configVPC.require("subnet-az-1"),
         false
     );
 
-    const privateEipUsEast1a = new aws.ec2.Eip(`lb-${name}-private-us-east-1a`, {
+    const privateEipUsEast1a = new aws.ec2.Eip(`lb-${name}-private-${configVPC.require("subnet-az-1")}`, {
         vpc: true,
     }, {
         dependsOn: [privateSubnetUsEast1a],
     });
 
-    const privateNatUsEast1a = new aws.ec2.NatGateway(`nat-${name}-private-us-east-1a`, {
+    const privateNatUsEast1a = new aws.ec2.NatGateway(`nat-${name}-private-${configVPC.require("subnet-az-1")}`, {
         allocationId: privateEipUsEast1a.id,
         subnetId: privateSubnetUsEast1a.id,
         tags: {
-            Name: `nat-${name}-private-us-east-1a`,
+            Name: `nat-${name}-private-${configVPC.require("subnet-az-1")}`,
         },
     }, {
         dependsOn: [ig, privateEipUsEast1a],
     });
 
-    const privateRouteTableUsEast1a = createRouteTable(`rt-${name}-private-us-east-1a`, vpcConfig);
+    const privateRouteTableUsEast1a = createRouteTable(`rt-${name}-private-${configVPC.require("subnet-az-1")}`, vpcConfig);
 
-    new aws.ec2.RouteTableAssociation(`rta-${name}-private-us-east-1a`, {
+    new aws.ec2.RouteTableAssociation(`rta-${name}-private-${configVPC.require("subnet-az-1")}`, {
         subnetId: privateSubnetUsEast1a.id,
         routeTableId: privateRouteTableUsEast1a.id,
     }, {
         dependsOn: [privateSubnetUsEast1a, privateRouteTableUsEast1a],
     });
 
-    const privateRouteUsEast1a = createPrivateRoute(`r-${name}-private-us-east-1a`, privateRouteTableUsEast1a, privateNatUsEast1a);
+    const privateRouteUsEast1a = createPrivateRoute(`r-${name}-private-${configVPC.require("subnet-az-1")}`, privateRouteTableUsEast1a, privateNatUsEast1a);
     return privateSubnetUsEast1a;
 }
 
 function configPublicSubnetUsEast1b(name: string, vpcConfig: aws.ec2.Vpc, ig: aws.ec2.InternetGateway) {
     const publicSubnetUsEast1b = createSubnet(
-        `${name}-public-us-east-1b`,
+        `${name}-public-${configVPC.require("subnet-az-2")}`,
         vpcConfig,
-        "10.0.64.0/18",
-        "us-east-1b",
+        configVPC.require("subnet-public-cidr-block-az-2"),
+        configVPC.require("subnet-az-2"),
         true
     );
 
-    const publicRouteTableUsEast1b = createRouteTable(`rt-${name}-public-us-east-1b`, vpcConfig);
+    const publicRouteTableUsEast1b = createRouteTable(`rt-${name}-public-${configVPC.require("subnet-az-2")}`, vpcConfig);
 
-    new aws.ec2.RouteTableAssociation(`rta-${name}-public-us-east-1b`, {
+    new aws.ec2.RouteTableAssociation(`rta-${name}-public-${configVPC.require("subnet-az-2")}`, {
         subnetId: publicSubnetUsEast1b.id,
         routeTableId: publicRouteTableUsEast1b.id,
     }, {
         dependsOn: [publicSubnetUsEast1b, publicRouteTableUsEast1b],
     });
 
-    const publicRouteUsEast1b = createPublicRoute(`r-${name}-public-us-east-1b`, publicRouteTableUsEast1b, ig);
+    const publicRouteUsEast1b = createPublicRoute(`r-${name}-public-${configVPC.require("subnet-az-2")}`, publicRouteTableUsEast1b, ig);
     return publicSubnetUsEast1b;
 }
 
 function configPublicSubnetUsEast1a(name: string, vpcConfig: aws.ec2.Vpc, ig: aws.ec2.InternetGateway) {
     const publicSubnetUsEast1a = createSubnet(
-        `${name}-public-us-east-1a`,
+        `${name}-public-${configVPC.require("subnet-az-1")}`,
         vpcConfig,
-        "10.0.0.0/18",
-        "us-east-1a",
+        configVPC.require("subnet-public-cidr-block-az-1"),
+        configVPC.require("subnet-az-1"),
         true
     );
 
-    const publicRouteTableUsEast1a = createRouteTable(`rt-${name}-public-us-east-1a`, vpcConfig);
+    const publicRouteTableUsEast1a = createRouteTable(`rt-${name}-public-${configVPC.require("subnet-az-1")}`, vpcConfig);
 
-    new aws.ec2.RouteTableAssociation(`rta-${name}-public-us-east-1a`, {
+    new aws.ec2.RouteTableAssociation(`rta-${name}-public-${configVPC.require("subnet-az-1")}`, {
         subnetId: publicSubnetUsEast1a.id,
         routeTableId: publicRouteTableUsEast1a.id,
     }, {
         dependsOn: [publicSubnetUsEast1a, publicRouteTableUsEast1a],
     });
 
-    const publicRouteUsEast1a = createPublicRoute(`r-${name}-public-us-east-1a`, publicRouteTableUsEast1a, ig);
+    const publicRouteUsEast1a = createPublicRoute(`r-${name}-public-${configVPC.require("subnet-az-1")}`, publicRouteTableUsEast1a, ig);
     return publicSubnetUsEast1a;
 }
 
@@ -149,7 +152,7 @@ function configPublicSubnetUsEast1a(name: string, vpcConfig: aws.ec2.Vpc, ig: aw
 export function createVPC(name: string): aws.ec2.Vpc {
     const vpcConfig = new aws.ec2.Vpc(name, {
         assignGeneratedIpv6CidrBlock: false,
-        cidrBlock: "10.0.0.0/16",
+        cidrBlock: configVPC.require("cidr-block"),
         enableDnsHostnames: true,
         enableDnsSupport: true,
         instanceTenancy: "default",
