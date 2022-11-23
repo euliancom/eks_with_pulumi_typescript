@@ -8,10 +8,13 @@ export function createNodeGroup(name: string, eksConfig: aws.eks.Cluster): aws.e
         nodeRoleArn: nodeGroupRole.arn,
         subnetIds: eksConfig.vpcConfig.subnetIds,
         scalingConfig: {
-            desiredSize: 1,
-            maxSize: 2,
+            desiredSize: 3,
+            maxSize: 4,
             minSize: 1,
         },
+        amiType: "AL2_x86_64",
+        capacityType: "SPOT",
+        instanceTypes: ["t2.micro"],
         updateConfig: {
             maxUnavailable: 1,
         },

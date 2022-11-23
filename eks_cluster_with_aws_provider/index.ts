@@ -25,4 +25,3 @@ const ns = new k8s.core.v1.Namespace(name, {}, {
 const deployment = eksDeployment.createDeployment(name, eksProvider, ns);
 const service = eksService.createService(name, eksProvider, ns, deployment);
 const ingress = eksIngress.createIngress(name, eksProvider, ns, service);
-

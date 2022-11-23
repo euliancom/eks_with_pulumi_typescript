@@ -74,8 +74,8 @@ const service = new k8s.core.v1.Service(name,
             namespace: namespaceName,
         },
         spec: {
-            type: "LoadBalancer",
-            ports: [{ port: 80, targetPort: "http" }],
+            type: "NodePort",
+            ports: [{ port: 80, targetPort: 80 }],
             selector: appLabels,
         },
     },
@@ -91,7 +91,7 @@ const service = new k8s.core.v1.Service(name,
 export const serviceName = service.metadata.name;
 
 // Create an Ingress for the NGINX Service
-const ingress = new k8s.core.v1.Ingress(name, {
+const ingress = new k8s.networking.v1.Ingress(name, {
     metadata: {
         name: name,
         namespace: namespaceName,

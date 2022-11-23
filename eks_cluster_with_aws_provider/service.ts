@@ -19,7 +19,7 @@ export function createService(name: string, eksProvider: k8s.Provider, ns: k8s.c
                 port: 80,
                 targetPort: 80,
             }],
-            type: "ClusterIP",
+            type: "NodePort",
         },
     }, {
         dependsOn: [
