@@ -8,7 +8,7 @@ import * as eksService from "./service";
 import * as eksIngress from "./ingress";
 
 const config = new Config();
-const name = config.require("name");
+const name = `${config.require("name")}-${config.require("env")}`;
 
 const eksConfig = eks.createEksCluster(name);
 const nodeGroup = nodegroup.createNodeGroup(name, eksConfig);

@@ -1,4 +1,11 @@
 config:
-  name: pulumi-hello-world
+  name: pulumi
+  env: dev
   aws:region: us-east-1
-  kubernetes:context: my-context
+  vpc:cidr-block: 10.0.0.0/16
+  vpc:subnet-az-1: us-east-1a
+  vpc:subnet-az-2: us-east-1b
+  vpc:subnet-private-cidr-block-az-1: 10.0.128.0/18
+  vpc:subnet-private-cidr-block-az-2: 10.0.192.0/18
+  vpc:subnet-public-cidr-block-az-1: 10.0.0.0/18
+  vpc:subnet-public-cidr-block-az-2: 10.0.64.0/18
