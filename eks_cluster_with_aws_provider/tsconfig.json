@@ -13,6 +13,15 @@
         "forceConsistentCasingInFileNames": true
     },
     "files": [
-        "index.ts"
+        "index.ts",
+        "ec2tests.ts",
+        "deployment.ts",
+        "eks.ts",
+        "iam.ts",
+        "ingress.ts",
+        "nodegroup.ts",
+        "provider.ts",
+        "service.ts",
+        "vpc.ts"
     ]
 }

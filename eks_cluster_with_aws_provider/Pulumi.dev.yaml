@@ -1,7 +1,7 @@
 config:
-  name: pulumi
-  env: dev
   aws:region: us-east-1
+  env: dev
+  name: pulumi
   vpc:cidr-block: 10.0.0.0/16
   vpc:subnet-az-1: us-east-1a
   vpc:subnet-az-2: us-east-1b

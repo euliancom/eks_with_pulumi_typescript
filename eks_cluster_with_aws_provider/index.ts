@@ -10,9 +10,9 @@ import * as eksIngress from "./ingress";
 const config = new Config();
 const name = `${config.require("name")}-${config.require("env")}`;
 
-const eksConfig = eks.createEksCluster(name);
-const nodeGroup = nodegroup.createNodeGroup(name, eksConfig);
-const eksProvider = eksProviderConfig.getProvider(name, eksConfig);
+export const eksConfig = eks.createEksCluster(name);
+export const nodeGroup = nodegroup.createNodeGroup(name, eksConfig);
+export const eksProvider = eksProviderConfig.getProvider(name, eksConfig);
 
 const ns = new k8s.core.v1.Namespace(name, {}, {
     dependsOn: [
