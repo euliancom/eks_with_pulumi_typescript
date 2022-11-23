@@ -55,8 +55,8 @@ export KUBECONFIG=~/.kube/kubeconfig
 # [KUBECTL](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/)
 # [AWS-CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
-## I created 2 implementations using 2 different providers.
+## Implementations:
 
-### EKS + Kubernetes providers, which offers faster deployment in my opinion
-### AWS + Kubernetes providers, which gives a greater control in my opinion
+### [EKS + Kubernetes providers](https://github.com/euliancom/eks_with_pulumi_typescript/tree/main/eks_cluster_with_eks_provider)
+### [AWS + Kubernetes providers](https://github.com/euliancom/eks_with_pulumi_typescript/tree/main/eks_cluster_with_aws_provider)
 
